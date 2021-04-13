@@ -10,6 +10,7 @@ class Play extends Phaser.Scene {
 
        this.load.image('starfield', './assets_custom/starfield.png');
        this.load.image('rocket', './assets_custom/torpedo.png');
+       this.load.image('enterprise', './assets_custom/ship.png');
        this.load.image('spaceship', './assets_custom/enemyship.png');
        this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
 
@@ -22,11 +23,12 @@ class Play extends Phaser.Scene {
             0, 0, 640, 480, 'starfield'
         ).setOrigin(0, 0);
 
-        this.p1Rocket = new Rocket(this, game.config.width / 2, game.config.height - borderUISize - borderPadding, 'rocket');
+        this.p1Sprite = this.add.sprite(0, 410, 'enterprise').setOrigin(0, 0);
+        this.p1Rocket = new Rocket(this, game.config.width / 2, game.config.height - borderUISize - borderPadding - 70, 'rocket', 0, this.p1Sprite);
 
-        this.ship1 = new Ship(this, 100, 200, 'spaceship', 0, 30);
-        this.ship2 = new Ship(this, 450, 250, 'spaceship', 0, 50);
-        this.ship3 = new Ship(this, 300, 300, 'spaceship', 0, 70);
+        this.ship1 = new Ship(this, (Math.random() * (590 - 50) + 50), 215 - 75, 'spaceship', 0, 30);
+        this.ship2 = new Ship(this, (Math.random() * (590 - 50) + 50), 215, 'spaceship', 0, 50);
+        this.ship3 = new Ship(this, (Math.random() * (590 - 50) + 50), 215 + 75, 'spaceship', 0, 70);
 
         /*
         // green UI background
@@ -111,18 +113,21 @@ class Play extends Phaser.Scene {
         if(this.checkCollision(this.p1Rocket, this.ship1)) {
 
             this.p1Rocket.reset();
+            this.p1Rocket.alpha = 0;
             this.shipExplode(this.ship1);
 
         }
         if (this.checkCollision(this.p1Rocket, this.ship2)) {
 
             this.p1Rocket.reset();
+            this.p1Rocket.alpha = 0;
             this.shipExplode(this.ship2);
             
         }
         if (this.checkCollision(this.p1Rocket, this.ship3)) {
 
             this.p1Rocket.reset();
+            this.p1Rocket.alpha = 0;
             this.shipExplode(this.ship3);
 
         }
