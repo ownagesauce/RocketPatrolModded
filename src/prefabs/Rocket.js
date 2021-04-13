@@ -71,7 +71,7 @@ class Rocket extends Phaser.GameObjects.Sprite {
 
     reset() {
 
-        this.y = game.config.height - borderUISize - borderPadding - 70;
+        this.y = game.config.height - borderUISize - borderPadding - 75;
         this.isFiring = false;
 
     }
