@@ -4,20 +4,21 @@ class Rocket extends Phaser.GameObjects.Sprite {
 
         super(scene, x, y, texture, frame);
         scene.add.existing(this);
-        this.movementSpeed = 1;
+        this.movementSpeed = 3.5;
         this.isFiring = false;
         this.sfxRocket = scene.sound.add('sfx_torpedo');
         this.sfxRocket.volume = 0.5;
         this.ship = ship;
         this.shipX = this.x;
         this.alpha = 0;
+        this.ammo = 20;
 
     }
 
     update() {
         if(this.isFiring) {
 
-            this.y -= this.movementSpeed * 3;
+            this.y -= this.movementSpeed * 5 / 3.5;
             this.alpha = 1;
             if(this.y < borderUISize * 1.5) {
 
@@ -30,11 +31,11 @@ class Rocket extends Phaser.GameObjects.Sprite {
 
         if(keyLEFT.isDown) {
 
-            this.shipX -= this.movementSpeed * 1.5;
+            this.shipX -= this.movementSpeed;
 
             if (!this.isFiring) {
 
-                this.x -= this.movementSpeed * 1.5;
+                this.x -= this.movementSpeed;
                 this.x = this.shipX;
 
             }
@@ -43,22 +44,23 @@ class Rocket extends Phaser.GameObjects.Sprite {
 
         if(keyRIGHT.isDown) {
 
-            this.shipX += this.movementSpeed * 1.5;
+            this.shipX += this.movementSpeed;
             
             if (!this.isFiring) {
 
-                this.x += this.movementSpeed * 1.5;
+                this.x += this.movementSpeed;
                 this.x = this.shipX;
 
             }
         
         }
 
-        if(Phaser.Input.Keyboard.JustDown(keyF) && !this.isFiring) {
+        if(Phaser.Input.Keyboard.JustDown(keyF) && !this.isFiring && this.ammo > 0) {
 
             this.x = this.shipX;
             this.isFiring = true;
-            this.sfxRocket.play()
+            this.sfxRocket.play();
+            this.ammo -= 1;
         
         }
 

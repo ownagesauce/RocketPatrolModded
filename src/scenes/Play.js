@@ -12,7 +12,7 @@ class Play extends Phaser.Scene {
        this.load.image('rocket', './assets_custom/torpedo.png');
        this.load.image('enterprise', './assets_custom/ship.png');
        this.load.image('spaceship', './assets_custom/enemyship.png');
-       this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
+       this.load.spritesheet('explosion', './assets_custom/explosion.png', {frameWidth: 100, frameHeight: 100, startFrame: 0, endFrame: 8});
 
     }
 
@@ -70,14 +70,14 @@ class Play extends Phaser.Scene {
         this.anims.create({
 
             key: 'explode',
-            frames: this.anims.generateFrameNumbers('explosion', { start: 0, end: 9, first: 0}),
+            frames: this.anims.generateFrameNumbers('explosion', { start: 0, end: 8, first: 0}),
             frameRate: 30
 
         });
 
         this.p1Score = 0;
 
-        let scoreConfig = {
+        this.statusConfig = {
 
             fontFamily: 'Courier',
             fontSize: '28px',
@@ -94,16 +94,22 @@ class Play extends Phaser.Scene {
 
         }
 
-        this.scoreLeft = this.add.text(borderUISize + borderPadding + 20, borderUISize + borderPadding * 2 + 20, this.p1Score, scoreConfig);
+        this.scoreLeft = this.add.text(borderUISize + borderPadding + 20, borderUISize + borderPadding * 2 + 20, this.p1Score, this.statusConfig);
+        this.ammoRight = this.add.text(borderUISize + borderPadding + 510, borderUISize + borderPadding * 2 + 20, this.p1Rocket.ammo, this.statusConfig);
 
         this.gameOver = false;
 
-        scoreConfig.fixedWidth = 0;
+        this.statusConfig.fixedWidth = 0;
+
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
 
-        this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
-        this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart', scoreConfig).setOrigin(0.5);
-        this.gameOver = true;
+            if (!this.gameOver) {
+
+                this.add.text(game.config.width/2, game.config.height/2, 'MISSION ACCOMPLISHED', this.statusConfig).setOrigin(0.5);
+                this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart', this.statusConfig).setOrigin(0.5);
+                this.gameOver = true;
+
+            }
 
         }, null, this);
 
@@ -111,16 +117,23 @@ class Play extends Phaser.Scene {
 
     update() {
 
-        if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
+        this.ammoRight.text = this.p1Rocket.ammo;
+
+        if (this.p1Rocket.ammo < 1) {
+
+            this.gameOver = true;
+
+            this.add.text(game.config.width/2, game.config.height/2, 'TORPEDOS EXPENDED, MISSION FAILED', this.statusConfig).setOrigin(0.5);
+            this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart', this.statusConfig).setOrigin(0.5);
+            this.gameOver = true;
+
+        }
+
+        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.restart();
         }
 
-        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
-            this.scene.start("menuScene");
-        }
-
         this.starfield.tilePositionX -= 1;
-        this.p1Rocket.update();
         
         if (!this.gameOver) {       
 
@@ -131,7 +144,7 @@ class Play extends Phaser.Scene {
 
         }
 
-        if(this.checkCollision(this.p1Rocket, this.ship1)) {
+        if (this.checkCollision(this.p1Rocket, this.ship1)) {
 
             this.p1Rocket.reset();
             this.p1Rocket.alpha = 0;
@@ -177,7 +190,7 @@ class Play extends Phaser.Scene {
     shipExplode(ship) {
 
         ship.alpha = 0;
-        let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0, 0);
+        let boom = this.add.sprite(ship.x - 75, ship.y - 50, 'explosion').setOrigin(0, 0);
         boom.anims.play('explode');
         boom.on('animationcomplete', () => {
 
