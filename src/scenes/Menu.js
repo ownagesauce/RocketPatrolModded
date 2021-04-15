@@ -67,7 +67,7 @@ class Menu extends Phaser.Scene {
           fontFamily: 'pixelfont7',
           fontSize: '30px',
           color: '#FFC55B',
-          align: 'right',
+          align: 'left',
           shadow: {
 
             offsetX: 0,
@@ -164,6 +164,25 @@ class Menu extends Phaser.Scene {
         // homescreen
 
         this.add.image(0, -10, 'splash').setOrigin(0, 0);
+
+        // high score
+
+        menuConfig.fontSize = '16px';
+        menuConfig.color = '#FF4540'
+        menuConfig.shadow = {
+
+          offsetX: 0,
+          offsetY: 0,
+          color: '#FF4540',
+          blur: 4,
+          stroke: 20,
+          fill: '#FF4540'
+
+        };
+
+        this.add.text(65, 35, 'HI-SCORE:', menuConfig).setOrigin(0.5);
+        menuConfig.fontSize = '36px';
+        this.highScoreText = this.add.text(60, 65, highScore, menuConfig).setOrigin(0.5);
 
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
@@ -267,6 +286,8 @@ class Menu extends Phaser.Scene {
           }
 
         }
+
+        this.highScoreText.text = highScore;
 
         // game start logic
         

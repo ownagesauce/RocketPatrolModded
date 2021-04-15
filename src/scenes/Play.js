@@ -66,6 +66,7 @@ class Play extends Phaser.Scene {
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        keyESCAPE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 
         this.anims.create({
 
@@ -109,6 +110,12 @@ class Play extends Phaser.Scene {
                 this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart', this.statusConfig).setOrigin(0.5);
                 this.gameOver = true;
 
+                if (this.p1Score > highScore) {
+
+                    highScore = this.p1Score;
+    
+                }
+
             }
 
         }, null, this);
@@ -127,10 +134,20 @@ class Play extends Phaser.Scene {
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart', this.statusConfig).setOrigin(0.5);
             this.gameOver = true;
 
+            if (this.p1Score > highScore) {
+
+                highScore = this.p1Score;
+
+            }
+
         }
 
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.restart();
+        }
+
+        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyESCAPE)) {
+            this.scene.start("menuScene");
         }
         
         if (!this.gameOver) {       
