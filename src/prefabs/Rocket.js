@@ -15,8 +15,11 @@ class Rocket extends Phaser.GameObjects.Sprite {
 
     }
 
-    update() {
-        if(this.isFiring) {
+    update(starfield) {
+
+        let tileSprite = starfield;
+
+        if (this.isFiring) {
 
             this.y -= this.movementSpeed * 5 / 3.5;
             this.alpha = 1;
@@ -29,9 +32,10 @@ class Rocket extends Phaser.GameObjects.Sprite {
 
         }
 
-        if(keyLEFT.isDown) {
+        if (keyLEFT.isDown) {
 
             this.shipX -= this.movementSpeed;
+            tileSprite.tilePositionX = this.shipX / 0.75;
 
             if (!this.isFiring) {
 
@@ -42,9 +46,10 @@ class Rocket extends Phaser.GameObjects.Sprite {
         
         }
 
-        if(keyRIGHT.isDown) {
+        if (keyRIGHT.isDown) {
 
             this.shipX += this.movementSpeed;
+            tileSprite.tilePositionX = this.shipX / 0.75;
             
             if (!this.isFiring) {
 
@@ -55,7 +60,7 @@ class Rocket extends Phaser.GameObjects.Sprite {
         
         }
 
-        if(Phaser.Input.Keyboard.JustDown(keyF) && !this.isFiring && this.ammo > 0) {
+        if (Phaser.Input.Keyboard.JustDown(keyF) && !this.isFiring && this.ammo > 0) {
 
             this.x = this.shipX;
             this.isFiring = true;
@@ -64,8 +69,8 @@ class Rocket extends Phaser.GameObjects.Sprite {
         
         }
 
-        this.x = Phaser.Math.Clamp(this.x, borderUISize + borderPadding + 20, game.config.width - borderUISize - borderPadding - 20);
-        this.shipX = Phaser.Math.Clamp(this.shipX, borderUISize + borderPadding + 20, game.config.width - borderUISize - borderPadding - 20);
+        this.x = Phaser.Math.Clamp(this.x, borderUISize + borderPadding + 30, game.config.width - borderUISize - borderPadding - 30);
+        this.shipX = Phaser.Math.Clamp(this.shipX, borderUISize + borderPadding + 30, game.config.width - borderUISize - borderPadding - 30);
 
         this.ship.x = this.shipX - 17;
 

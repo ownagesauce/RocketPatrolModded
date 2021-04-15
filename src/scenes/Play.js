@@ -79,7 +79,7 @@ class Play extends Phaser.Scene {
 
         this.statusConfig = {
 
-            fontFamily: 'Courier',
+            fontFamily: 'pixelfont7',
             fontSize: '28px',
             backgroundColor: '#F3B141',
             color: '#843605',
@@ -123,7 +123,7 @@ class Play extends Phaser.Scene {
 
             this.gameOver = true;
 
-            this.add.text(game.config.width/2, game.config.height/2, 'TORPEDOS EXPENDED, MISSION FAILED', this.statusConfig).setOrigin(0.5);
+            this.add.text(game.config.width/2, game.config.height/2, 'TORPEDOES EXPENDED, MISSION FAILED', this.statusConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart', this.statusConfig).setOrigin(0.5);
             this.gameOver = true;
 
@@ -132,12 +132,10 @@ class Play extends Phaser.Scene {
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.restart();
         }
-
-        this.starfield.tilePositionX -= 1;
         
         if (!this.gameOver) {       
 
-            this.p1Rocket.update();
+            this.p1Rocket.update(this.starfield);
             this.ship1.update();
             this.ship2.update();
             this.ship3.update();
