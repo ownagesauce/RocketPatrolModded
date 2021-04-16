@@ -146,7 +146,7 @@ class Play extends Phaser.Scene {
             this.scene.restart();
         }
 
-        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyESCAPE)) {
+        if (Phaser.Input.Keyboard.JustDown(keyESCAPE)) {
             this.scene.start("menuScene");
         }
         

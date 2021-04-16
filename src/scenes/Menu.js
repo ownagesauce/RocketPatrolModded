@@ -10,9 +10,10 @@ class Menu extends Phaser.Scene {
 
         this.load.image('splash', './assets_custom/homescreen.png');
         this.load.audio('sfx_select', './assets_custom/select.wav');
+        this.load.audio('toggle', './assets_custom/toggle.wav');
         this.load.audio('sfx_explosion', './assets_custom/explosion.wav');
         this.load.audio('sfx_torpedo', './assets_custom/fire.wav');
-        this.load.audio('theme', './assets_custom/startrektheme.mp3');
+        this.load.audio('theme', './assets_custom/spacetheme.mp3');
         this.load.image('rocket', './assets_custom/torpedo.png');
         this.load.image('enterprise', './assets_custom/ship.png');
         this.load.image('spaceship', './assets_custom/enemyship.png');
@@ -101,7 +102,7 @@ class Menu extends Phaser.Scene {
           fill: '#88D4FF'
 
         };
-        menuConfig.fontSize = '24px';
+        menuConfig.fontSize = '22px';
         this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding + 100, 'DIFFICULTY:', menuConfig).setOrigin(0.5);
         
         // toggleable difficulty UI
@@ -113,17 +114,17 @@ class Menu extends Phaser.Scene {
 
           offsetX: 0,
           offsetY: 0,
-          color: 'transparent',
-          blur: 0,
-          stroke: 0,
-          fill: 'transparent'
+          color: '#303030',
+          blur: 4,
+          stroke: 20,
+          fill: '#303030'
 
         };
         menuConfig.fontSize = 28;
-        this.difficultySettingEasy = this.add.text(game.config.width / 2 - 45, game.config.height / 2 + borderUISize + borderPadding + 129, 'EASY', menuConfig).setOrigin(0.5);
+        this.difficultySettingEasy = this.add.text(game.config.width / 2 - 45, game.config.height / 2 + borderUISize + borderPadding + 127, 'EASY', menuConfig).setOrigin(0.5);
         menuConfig.color = '#335060'
   
-        this.difficultySettingHard = this.add.text(game.config.width / 2 + 45, game.config.height / 2 + borderUISize + borderPadding + 129, 'hard', menuConfig).setOrigin(0.5);
+        this.difficultySettingHard = this.add.text(game.config.width / 2 + 45, game.config.height / 2 + borderUISize + borderPadding + 127, 'hard', menuConfig).setOrigin(0.5);
 
         menuConfig.color = '#88D4FF'
         menuConfig.shadow = {
@@ -137,7 +138,7 @@ class Menu extends Phaser.Scene {
 
         };
 
-        menuConfig.fontSize = 16;
+        menuConfig.fontSize = 15;
         this.add.text(game.config.width / 2, game.config.height / 2 + borderUISize + borderPadding + 155, 'HIT F TO TOGGLE', menuConfig).setOrigin(0.5);
 
         // yellow inner border
@@ -160,6 +161,22 @@ class Menu extends Phaser.Scene {
         this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0x3972C9).setOrigin(0, 0);
         this.add.rectangle(0, 0, borderUISize, game.config.height, 0x3972C9).setOrigin(0, 0);
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0x3972C9).setOrigin(0, 0);
+
+        // lmao
+
+        menuConfig.color = '#009CFF'
+        menuConfig.shadow = {
+
+          offsetX: 0,
+          offsetY: 0,
+          color: '#009CFF',
+          blur: 4,
+          stroke: 20,
+          fill: '#009CFF'
+
+        };
+        menuConfig.fontSize = 24;
+        this.add.text(game.config.width / 2, game.config.height / 2 + borderUISize + borderPadding + 205, '©COPYRIGHT 1981 OR SOMETHING', menuConfig).setOrigin(0.5);
 
         // homescreen
 
@@ -204,6 +221,8 @@ class Menu extends Phaser.Scene {
         // difficulty toggle logic
 
         if (Phaser.Input.Keyboard.JustDown(keyF)) {
+
+          this.sound.play('toggle');
 
           if (!this.difficulty) {
 
