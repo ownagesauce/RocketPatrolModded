@@ -36,14 +36,20 @@ here's my big list of modifications, in the order I added them:
 
     - Soundtrack from Die Historic "Three Chain Links" royalty free music and SFX sampled from the Star Trek™ franchise and edited in Audacity (5 points for music, 5 points for new SFX ?)
 
-    - Limited torpedo ammo count (replenishable, see "multiple endgame states")
-
     - Added parallax scrolling (10 points)
 
     - Rewrote difficulty selection logic; now controlled by a toggle visible in the main menu (5 points ?)
 
     - Added persistent high score save (5 points)
 
-    TOTAL POINTS: 65
+    - Added time left display (10 points)
+
+    - Added particle emitter (20 points) on explosion
+
+    - Added limited ammo count that may be replenished (10 points ?)
+
+    - Added multiple end game states, including insufficient score and expended torpedoes (10 points ?)
+
+    TOTAL POINTS: 115?
 
 */

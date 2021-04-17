@@ -12,6 +12,7 @@ class Play extends Phaser.Scene {
        this.load.image('rocket', './assets_custom/torpedo.png');
        this.load.image('enterprise', './assets_custom/ship.png');
        this.load.image('spaceship', './assets_custom/enemyship.png');
+       this.load.image('spark', './assets_custom/spark.png');
        this.load.spritesheet('explosion', './assets_custom/explosion.png', {frameWidth: 100, frameHeight: 100, startFrame: 0, endFrame: 8});
 
     }
@@ -77,29 +78,56 @@ class Play extends Phaser.Scene {
         });
 
         this.p1Score = 0;
+        this.timeLeft = game.settings.gameTimer;
 
         this.statusConfig = {
 
             fontFamily: 'pixelfont7',
             fontSize: '28px',
-            backgroundColor: '#F3B141',
-            color: '#843605',
-            align: 'right',
+            color: '#4D8F41',
+            align: 'left',
+
+            shadow: {
+
+                offsetX: 0,
+                offsetY: 0,
+                color: '#4D8F41',
+                blur: 4,
+                stroke: 20,
+                fill: '#4D8F41'
+            
+            },
 
             padding: {
               top: 5,
               bottom: 5,
             },
 
-            fixedWidth: 100
+            fixedWidth: 200
 
         }
 
-        this.timeLeft = game.settings.gameTimer;
+        this.scoreText = this.add.text(borderUISize + borderPadding + 27, borderUISize + borderPadding * 2 + 17,"score:", this.statusConfig);
+        this.ammoText = this.add.text(borderUISize + borderPadding + 429, borderUISize + borderPadding * 2 + 17, "torpedoes:", this.statusConfig);
+        this.timeText = this.add.text(borderUISize + borderPadding + 230, borderUISize + borderPadding * 2 + 17, "time:", this.statusConfig);
 
-        this.scoreLeft = this.add.text(borderUISize + borderPadding + 20, borderUISize + borderPadding * 2 + 20, this.p1Score, this.statusConfig);
-        this.ammoRight = this.add.text(borderUISize + borderPadding + 510, borderUISize + borderPadding * 2 + 20, this.p1Rocket.ammo, this.statusConfig);
-        this.timeCenter = this.add.text(borderUISize + borderPadding + 250, borderUISize + borderPadding * 2 + 20, this.timeLeft, this.statusConfig);
+        this.statusConfig.color = '#6FCF5E'
+        this.statusConfig.shadow = {
+
+            offsetX: 0,
+            offsetY: 0,
+            color: '#6FCF5E',
+            blur: 4,
+            stroke: 20,
+            fill: '#6FCF5E'
+  
+        };
+        this.scoreLeft = this.add.text(borderUISize + borderPadding + 110, borderUISize + borderPadding * 2 + 17, this.p1Score, this.statusConfig);
+        this.ammoRight = this.add.text(borderUISize + borderPadding + 575, borderUISize + borderPadding * 2 + 17, this.p1Rocket.ammo, this.statusConfig);
+        this.timeCenter = this.add.text(borderUISize + borderPadding + 290, borderUISize + borderPadding * 2 + 17, this.timeLeft, this.statusConfig);
+
+        this.statusConfig.fontSize = '20px'
+        this.ammoGain = this.add.text(-1000, -1000, '+0 TORPEDOES', this.statusConfig).setOrigin(0.5);
 
         this.gameOver = false;
 
@@ -109,8 +137,68 @@ class Play extends Phaser.Scene {
 
             if (!this.gameOver) {
 
-                this.add.text(game.config.width/2, game.config.height/2, 'MISSION ACCOMPLISHED', this.statusConfig).setOrigin(0.5);
-                this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart', this.statusConfig).setOrigin(0.5);
+                if (this.p1Score > 200) {
+
+                    this.statusConfig.fontSize = '32px'
+                    this.statusConfig.color = "#6FCF5E";
+                    this.statusConfig.shadow = {
+
+                        offsetX: 0,
+                        offsetY: 0,
+                        color: '#6FCF5E',
+                        blur: 4,
+                        stroke: 20,
+                        fill: '#6FCF5E'
+              
+                    };
+                    this.add.text(game.config.width/2, game.config.height/2, 'MISSION ACCOMPLISHED', this.statusConfig).setOrigin(0.5);
+                    this.statusConfig.fontSize = '20px'
+                    this.statusConfig.color = "#4D8F41";
+                    this.statusConfig.shadow = {
+
+                        offsetX: 0,
+                        offsetY: 0,
+                        color: '#4D8F41',
+                        blur: 4,
+                        stroke: 20,
+                        fill: '#4D8F41'
+              
+                    };
+                    this.add.text(game.config.width/2, game.config.height/2 + 30, 'PRESS R TO RESTART', this.statusConfig).setOrigin(0.5);
+                    this.add.text(game.config.width/2, game.config.height/2 + 60, 'PRESS ESC TO RETURN TO MENU', this.statusConfig).setOrigin(0.5);
+
+                } else if (this.p1Score <= 200) {
+
+                    this.statusConfig.color = "#EA8175";
+                    this.statusConfig.shadow = {
+
+                        offsetX: 0,
+                        offsetY: 0,
+                        color: '#EA8175',
+                        blur: 4,
+                        stroke: 20,
+                        fill: '#EA8175'
+              
+                    };
+                    this.statusConfig.fontSize = '26px'
+                    this.add.text(game.config.width/2, game.config.height/2, 'MISSION FAILED, INSUFFICIENT SCORE', this.statusConfig).setOrigin(0.5);
+                    this.statusConfig.color = "#EA5475";
+                    this.statusConfig.shadow = {
+
+                        offsetX: 0,
+                        offsetY: 0,
+                        color: '#EA5475',
+                        blur: 4,
+                        stroke: 20,
+                        fill: '#EA5475'
+              
+                    };
+                    this.statusConfig.fontSize = '20px'
+                    this.add.text(game.config.width/2, game.config.height/2 + 30, 'PRESS R TO RESTART', this.statusConfig).setOrigin(0.5);
+                    this.add.text(game.config.width/2, game.config.height/2 + 60, 'PRESS ESC TO RETURN TO MENU', this.statusConfig).setOrigin(0.5);
+
+                }
+
                 this.gameOver = true;
 
                 if (this.p1Score > highScore) {
@@ -122,6 +210,34 @@ class Play extends Phaser.Scene {
             }
 
         }, null, this);
+
+        this.statusConfig.fontSize = '26px'
+        this.statusConfig.color = "#EA8175";
+                    this.statusConfig.shadow = {
+
+                        offsetX: 0,
+                        offsetY: 0,
+                        color: '#EA8175',
+                        blur: 4,
+                        stroke: 20,
+                        fill: '#EA8175'
+              
+                    };
+        this.torpedoFailText1 = this.add.text(game.config.width / 2, game.config.height/2, '', this.statusConfig).setOrigin(0.5);
+        this.statusConfig.fontSize = '20px'
+        this.statusConfig.color = "#EA5475";
+                    this.statusConfig.shadow = {
+
+                        offsetX: 0,
+                        offsetY: 0,
+                        color: '#EA5475',
+                        blur: 4,
+                        stroke: 20,
+                        fill: '#EA5475'
+              
+                    };
+        this.torpedoFailText2 = this.add.text(game.config.width / 2, game.config.height/2 + 30, '', this.statusConfig).setOrigin(0.5);
+        this.torpedoFailText3 = this.add.text(game.config.width/2, game.config.height/2 + 60, '', this.statusConfig).setOrigin(0.5);
         
     }
 
@@ -140,8 +256,9 @@ class Play extends Phaser.Scene {
 
             this.gameOver = true;
 
-            this.add.text(game.config.width/2, game.config.height/2, 'TORPEDOES EXPENDED, MISSION FAILED', this.statusConfig).setOrigin(0.5);
-            this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart', this.statusConfig).setOrigin(0.5);
+            this.torpedoFailText1.text = 'TORPEDOES EXPENDED, MISSION FAILED'
+            this.torpedoFailText2.text = 'PRESS R TO RESTART'
+            this.torpedoFailText3.text = 'PRESS ESC TO RETURN TO MENU'
             this.gameOver = true;
 
             if (this.p1Score > highScore) {
@@ -173,6 +290,10 @@ class Play extends Phaser.Scene {
 
             this.p1Rocket.reset();
             this.p1Rocket.alpha = 0;
+            this.p1Rocket.ammo += 3;
+            this.ammoGain.x = this.ship1.x;
+            this.ammoGain.y = this.ship1.y - 60;
+            this.ammoGain.text = "+3 TORPEDOES";
             this.shipExplode(this.ship1);
 
         }
@@ -180,6 +301,10 @@ class Play extends Phaser.Scene {
 
             this.p1Rocket.reset();
             this.p1Rocket.alpha = 0;
+            this.p1Rocket.ammo += 2;
+            this.ammoGain.x = this.ship2.x;
+            this.ammoGain.y = this.ship2.y - 60;
+            this.ammoGain.text = "+2 TORPEDOES";
             this.shipExplode(this.ship2);
             
         }
@@ -187,6 +312,10 @@ class Play extends Phaser.Scene {
 
             this.p1Rocket.reset();
             this.p1Rocket.alpha = 0;
+            this.p1Rocket.ammo += 1;
+            this.ammoGain.x = this.ship3.x;
+            this.ammoGain.y = this.ship3.y - 60;
+            this.ammoGain.text = "+1 TORPEDOES";
             this.shipExplode(this.ship3);
 
         }
@@ -215,6 +344,23 @@ class Play extends Phaser.Scene {
     shipExplode(ship) {
 
         ship.alpha = 0;
+
+        let particle = this.add.particles('spark');
+
+        particle.createEmitter({
+
+            x: ship.x - 30,
+            y: ship.y,
+            angle: { min: 0, max: 360 },
+            speed: 5000,
+            accelerationX: -500,
+            accelerationY: -500,
+            gravityY: 100,
+            lifespan: { min: 10, max: 15},
+            blendMode: 'ADD'
+
+        });
+
         let boom = this.add.sprite(ship.x - 75, ship.y - 50, 'explosion').setOrigin(0, 0);
         boom.anims.play('explode');
         boom.on('animationcomplete', () => {
@@ -222,11 +368,13 @@ class Play extends Phaser.Scene {
             ship.reset();
             ship.alpha = 1;
             boom.destroy();
+            particle.destroy();
+            this.ammoGain.text = "";
 
         });
 
         this.p1Score += ship.points;
-        this.scoreLeft.text = this.p1Score;  
+        this.scoreLeft.text = this.p1Score;
 
         this.sound.play('sfx_explosion');
 
