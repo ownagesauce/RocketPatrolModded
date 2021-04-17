@@ -1,6 +1,6 @@
 class Rocket extends Phaser.GameObjects.Sprite {
 
-    constructor(scene, x, y, texture, frame, ship) {
+    constructor(scene, x, y, texture, frame, ship, ammoCount) {
 
         super(scene, x, y, texture, frame);
         scene.add.existing(this);
@@ -11,7 +11,7 @@ class Rocket extends Phaser.GameObjects.Sprite {
         this.ship = ship;
         this.shipX = this.x;
         this.alpha = 0;
-        this.ammo = 20;
+        this.ammo = ammoCount;
 
     }
 

@@ -24,7 +24,7 @@ class Play extends Phaser.Scene {
         ).setOrigin(0, 0);
 
         this.p1Sprite = this.add.sprite(0, 400, 'enterprise').setOrigin(0, 0);
-        this.p1Rocket = new Rocket(this, game.config.width / 2, game.config.height - borderUISize - borderPadding - 75, 'rocket', 0, this.p1Sprite);
+        this.p1Rocket = new Rocket(this, game.config.width / 2, game.config.height - borderUISize - borderPadding - 75, 'rocket', 0, this.p1Sprite, game.settings.ammoCount);
 
         this.ship1 = new Ship(this, (Math.random() * (590 - 50) + 50), 215 - 75, 'spaceship', 0, 30);
         this.ship2 = new Ship(this, (Math.random() * (590 - 50) + 50), 215, 'spaceship', 0, 50);
@@ -95,8 +95,11 @@ class Play extends Phaser.Scene {
 
         }
 
+        this.timeLeft = game.settings.gameTimer;
+
         this.scoreLeft = this.add.text(borderUISize + borderPadding + 20, borderUISize + borderPadding * 2 + 20, this.p1Score, this.statusConfig);
         this.ammoRight = this.add.text(borderUISize + borderPadding + 510, borderUISize + borderPadding * 2 + 20, this.p1Rocket.ammo, this.statusConfig);
+        this.timeCenter = this.add.text(borderUISize + borderPadding + 250, borderUISize + borderPadding * 2 + 20, this.timeLeft, this.statusConfig);
 
         this.gameOver = false;
 
@@ -119,10 +122,17 @@ class Play extends Phaser.Scene {
             }
 
         }, null, this);
-
+        
     }
 
     update() {
+
+        if (!this.gameOver) {
+
+            this.timeLeft = ((game.settings.gameTimer - this.clock.getElapsed()) / 1000).toFixed(0);
+            this.timeCenter.text = this.timeLeft;
+            
+        }
 
         this.ammoRight.text = this.p1Rocket.ammo;
 

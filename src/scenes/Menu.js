@@ -210,7 +210,8 @@ class Menu extends Phaser.Scene {
         game.settings = {
 
           spaceshipSpeed: 2,
-          gameTimer: 60000    
+          gameTimer: 60000,
+          ammoCount: 20  
 
         }
 
@@ -229,7 +230,8 @@ class Menu extends Phaser.Scene {
             game.settings = {
 
               spaceshipSpeed: 2,
-              gameTimer: 60000    
+              gameTimer: 60000,
+              ammoCount: 20 
 
             };
 
@@ -268,7 +270,8 @@ class Menu extends Phaser.Scene {
             game.settings = {
 
               spaceshipSpeed: 3,
-              gameTimer: 45000    
+              gameTimer: 45000,
+              ammoCount: 10   
 
             };
 
