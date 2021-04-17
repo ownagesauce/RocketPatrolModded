@@ -51,6 +51,8 @@ here's my big list of modifications, in the order I added them:
 
     - Added multiple end game states, including insufficient score and expended torpedoes (10 points ?)
 
-    TOTAL POINTS: 115?
+    - Added ship speed randomization on creation + ship speed increase on destruction (5 points ?)
+
+    TOTAL POINTS: 120 ?
 
 */
