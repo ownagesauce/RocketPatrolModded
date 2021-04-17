@@ -291,6 +291,7 @@ class Play extends Phaser.Scene {
             this.p1Rocket.reset();
             this.p1Rocket.alpha = 0;
             this.p1Rocket.ammo += 3;
+            this.ship1.moveSpeed += 0.25;
             this.ammoGain.x = this.ship1.x;
             this.ammoGain.y = this.ship1.y - 60;
             this.ammoGain.text = "+3 TORPEDOES";
@@ -302,6 +303,7 @@ class Play extends Phaser.Scene {
             this.p1Rocket.reset();
             this.p1Rocket.alpha = 0;
             this.p1Rocket.ammo += 2;
+            this.ship2.moveSpeed += 0.25;
             this.ammoGain.x = this.ship2.x;
             this.ammoGain.y = this.ship2.y - 60;
             this.ammoGain.text = "+2 TORPEDOES";
@@ -313,6 +315,7 @@ class Play extends Phaser.Scene {
             this.p1Rocket.reset();
             this.p1Rocket.alpha = 0;
             this.p1Rocket.ammo += 1;
+            this.ship3.moveSpeed += 0.25;
             this.ammoGain.x = this.ship3.x;
             this.ammoGain.y = this.ship3.y - 60;
             this.ammoGain.text = "+1 TORPEDOES";

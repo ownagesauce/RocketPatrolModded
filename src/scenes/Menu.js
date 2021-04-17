@@ -199,7 +199,7 @@ class Menu extends Phaser.Scene {
 
         this.add.text(65, 35, 'HI-SCORE:', menuConfig).setOrigin(0.5);
         menuConfig.fontSize = '36px';
-        this.highScoreText = this.add.text(60, 65, highScore, menuConfig).setOrigin(0.5);
+        this.highScoreText = this.add.text(65, 65, highScore, menuConfig).setOrigin(0.5);
 
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);

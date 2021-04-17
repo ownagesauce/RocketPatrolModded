@@ -5,7 +5,7 @@ class Ship extends Phaser.GameObjects.Sprite {
         super(scene, x, y, texture, frame);
         scene.add.existing(this);
         this.points = pointValue;
-        this.moveSpeed = game.settings.spaceshipSpeed;
+        this.moveSpeed = game.settings.spaceshipSpeed + (Math.random() * (0.1 - (-0.1)) + 0.1);
 
     }
 
