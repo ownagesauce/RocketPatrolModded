@@ -54,7 +54,7 @@ class Menu extends Phaser.Scene {
         if (launched == false) {
 
           let music = this.sound.add('theme');
-          music.volume = 0.1;
+          music.volume = 0.05;
           music.loop = true;
           music.play();
           launched = true;
@@ -229,7 +229,7 @@ class Menu extends Phaser.Scene {
 
             game.settings = {
 
-              spaceshipSpeed: 2,
+              spaceshipSpeed: 2.5,
               gameTimer: 60000,
               ammoCount: 20 
 
@@ -269,7 +269,7 @@ class Menu extends Phaser.Scene {
 
             game.settings = {
 
-              spaceshipSpeed: 3,
+              spaceshipSpeed: 3.5,
               gameTimer: 45000,
               ammoCount: 10   
 

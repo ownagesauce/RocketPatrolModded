@@ -34,7 +34,7 @@ here's my big list of modifications, in the order I added them:
 
     - Additional player ship sprite whose behavior is linked to the rocket (10 points ?)
 
-    - Soundtrack from Die Historic "Three Chain Links" royalty free music and SFX sampled from the Star Trek™ franchise and edited in Audacity (5 points for music, 5 points for new SFX ?)
+    - Soundtrack from HeatleyBros "New Possibility" royalty free music and SFX sampled from the Star Trek™ franchise and edited in Audacity (5 points for music, 5 points for new SFX ?)
 
     - Added parallax scrolling (10 points)
 
