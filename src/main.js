@@ -18,6 +18,11 @@ let keyF, keyR, keyLEFT, keyRIGHT, keySPACE, keyESCAPE;
 let launched = false;
 
 let highScore = 0;
+let gameOver = false;
+
+let torpedoFailText1, torpedoFailText2, torpedoFailText3;
+let p1Rocket;
+let p1Score;
 
 
 /* 

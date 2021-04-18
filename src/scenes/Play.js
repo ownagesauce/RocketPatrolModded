@@ -25,7 +25,7 @@ class Play extends Phaser.Scene {
         ).setOrigin(0, 0);
 
         this.p1Sprite = this.add.sprite(0, 400, 'enterprise').setOrigin(0, 0);
-        this.p1Rocket = new Rocket(this, game.config.width / 2, game.config.height - borderUISize - borderPadding - 75, 'rocket', 0, this.p1Sprite, game.settings.ammoCount);
+        p1Rocket = new Rocket(this, game.config.width / 2, game.config.height - borderUISize - borderPadding - 75, 'rocket', 0, this.p1Sprite, game.settings.ammoCount);
 
         this.ship1 = new Ship(this, (Math.random() * (590 - 50) + 50), 215 - 75, 'spaceship', 0, 30);
         this.ship2 = new Ship(this, (Math.random() * (590 - 50) + 50), 215, 'spaceship', 0, 50);
@@ -77,7 +77,7 @@ class Play extends Phaser.Scene {
 
         });
 
-        this.p1Score = 0;
+        p1Score = 0;
         this.timeLeft = game.settings.gameTimer;
 
         this.statusConfig = {
@@ -122,22 +122,22 @@ class Play extends Phaser.Scene {
             fill: '#6FCF5E'
   
         };
-        this.scoreLeft = this.add.text(borderUISize + borderPadding + 110, borderUISize + borderPadding * 2 + 17, this.p1Score, this.statusConfig);
-        this.ammoRight = this.add.text(borderUISize + borderPadding + 575, borderUISize + borderPadding * 2 + 17, this.p1Rocket.ammo, this.statusConfig);
+        this.scoreLeft = this.add.text(borderUISize + borderPadding + 110, borderUISize + borderPadding * 2 + 17, p1Score, this.statusConfig);
+        this.ammoRight = this.add.text(borderUISize + borderPadding + 575, borderUISize + borderPadding * 2 + 17, p1Rocket.ammo, this.statusConfig);
         this.timeCenter = this.add.text(borderUISize + borderPadding + 290, borderUISize + borderPadding * 2 + 17, this.timeLeft, this.statusConfig);
 
         this.statusConfig.fontSize = '20px'
         this.ammoGain = this.add.text(-1000, -1000, '+0 TORPEDOES', this.statusConfig).setOrigin(0.5);
 
-        this.gameOver = false;
+        gameOver = false;
 
         this.statusConfig.fixedWidth = 0;
 
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
 
-            if (!this.gameOver) {
+            if (!gameOver) {
 
-                if (this.p1Score > 200) {
+                if (p1Score > 200) {
 
                     this.statusConfig.fontSize = '32px'
                     this.statusConfig.color = "#6FCF5E";
@@ -167,7 +167,7 @@ class Play extends Phaser.Scene {
                     this.add.text(game.config.width/2, game.config.height/2 + 30, 'PRESS R TO RESTART', this.statusConfig).setOrigin(0.5);
                     this.add.text(game.config.width/2, game.config.height/2 + 60, 'PRESS ESC TO RETURN TO MENU', this.statusConfig).setOrigin(0.5);
 
-                } else if (this.p1Score <= 200) {
+                } else if (p1Score <= 200) {
 
                     this.statusConfig.color = "#EA8175";
                     this.statusConfig.shadow = {
@@ -199,11 +199,11 @@ class Play extends Phaser.Scene {
 
                 }
 
-                this.gameOver = true;
+                gameOver = true;
 
-                if (this.p1Score > highScore) {
+                if (p1Score > highScore) {
 
-                    highScore = this.p1Score;
+                    highScore = p1Score;
     
                 }
 
@@ -223,7 +223,7 @@ class Play extends Phaser.Scene {
                         fill: '#EA8175'
               
                     };
-        this.torpedoFailText1 = this.add.text(game.config.width / 2, game.config.height/2, '', this.statusConfig).setOrigin(0.5);
+        torpedoFailText1 = this.add.text(game.config.width / 2, game.config.height/2, '', this.statusConfig).setOrigin(0.5);
         this.statusConfig.fontSize = '20px'
         this.statusConfig.color = "#EA5475";
                     this.statusConfig.shadow = {
@@ -236,40 +236,21 @@ class Play extends Phaser.Scene {
                         fill: '#EA5475'
               
                     };
-        this.torpedoFailText2 = this.add.text(game.config.width / 2, game.config.height/2 + 30, '', this.statusConfig).setOrigin(0.5);
-        this.torpedoFailText3 = this.add.text(game.config.width/2, game.config.height/2 + 60, '', this.statusConfig).setOrigin(0.5);
+        torpedoFailText2 = this.add.text(game.config.width / 2, game.config.height/2 + 30, '', this.statusConfig).setOrigin(0.5);
+        torpedoFailText3 = this.add.text(game.config.width/2, game.config.height/2 + 60, '', this.statusConfig).setOrigin(0.5);
         
     }
 
     update() {
 
-        if (!this.gameOver) {
+        if (!gameOver) {
 
             this.timeLeft = ((game.settings.gameTimer - this.clock.getElapsed()) / 1000).toFixed(0);
             this.timeCenter.text = this.timeLeft;
             
         }
 
-        this.ammoRight.text = this.p1Rocket.ammo;
-
-        if (this.p1Rocket.ammo < 1) {
-
-            this.gameOver = true;
-
-            this.torpedoFailText1.text = 'TORPEDOES EXPENDED, MISSION FAILED'
-            this.torpedoFailText2.text = 'PRESS R TO RESTART'
-            this.torpedoFailText3.text = 'PRESS ESC TO RETURN TO MENU'
-            this.gameOver = true;
-
-            if (this.p1Score > highScore) {
-
-                highScore = this.p1Score;
-
-            }
-
-        }
-
-        if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
+        if (gameOver && Phaser.Input.Keyboard.JustDown(keyR)) {
             this.scene.restart();
         }
 
@@ -277,20 +258,21 @@ class Play extends Phaser.Scene {
             this.scene.start("menuScene");
         }
         
-        if (!this.gameOver) {       
+        if (!gameOver) {       
 
-            this.p1Rocket.update(this.starfield);
+            p1Rocket.update(this.starfield);
             this.ship1.update();
             this.ship2.update();
             this.ship3.update();
 
         }
 
-        if (this.checkCollision(this.p1Rocket, this.ship1)) {
+        if (this.checkCollision(p1Rocket, this.ship1)) {
 
-            this.p1Rocket.reset();
-            this.p1Rocket.alpha = 0;
-            this.p1Rocket.ammo += 3;
+            p1Rocket.alpha = 0;
+            p1Rocket.ammo += 3;
+            this.checkAmmo();
+            p1Rocket.reset();
             this.ship1.moveSpeed += 0.25;
             this.ammoGain.x = this.ship1.x;
             this.ammoGain.y = this.ship1.y - 60;
@@ -298,11 +280,12 @@ class Play extends Phaser.Scene {
             this.shipExplode(this.ship1);
 
         }
-        if (this.checkCollision(this.p1Rocket, this.ship2)) {
+        if (this.checkCollision(p1Rocket, this.ship2)) {
 
-            this.p1Rocket.reset();
-            this.p1Rocket.alpha = 0;
-            this.p1Rocket.ammo += 2;
+            p1Rocket.alpha = 0;
+            p1Rocket.ammo += 2;
+            this.checkAmmo();
+            p1Rocket.reset();
             this.ship2.moveSpeed += 0.25;
             this.ammoGain.x = this.ship2.x;
             this.ammoGain.y = this.ship2.y - 60;
@@ -310,11 +293,12 @@ class Play extends Phaser.Scene {
             this.shipExplode(this.ship2);
             
         }
-        if (this.checkCollision(this.p1Rocket, this.ship3)) {
+        if (this.checkCollision(p1Rocket, this.ship3)) {
 
-            this.p1Rocket.reset();
-            this.p1Rocket.alpha = 0;
-            this.p1Rocket.ammo += 1;
+            p1Rocket.alpha = 0;
+            p1Rocket.ammo += 1;
+            this.checkAmmo();
+            p1Rocket.reset();
             this.ship3.moveSpeed += 0.25;
             this.ammoGain.x = this.ship3.x;
             this.ammoGain.y = this.ship3.y - 60;
@@ -322,6 +306,8 @@ class Play extends Phaser.Scene {
             this.shipExplode(this.ship3);
 
         }
+
+        this.ammoRight.text = p1Rocket.ammo;
 
     }
 
@@ -333,12 +319,32 @@ class Play extends Phaser.Scene {
             rocket.y < ship.y + ship.height) {
 
             ship.alpha = 0;
-            rocket.reset();
             return true;
 
         } else {
 
             return false;
+
+        }
+
+    }
+
+    checkAmmo() {
+
+        if (p1Rocket.ammo < 1) {
+
+            gameOver = true;
+
+            torpedoFailText1.text = 'TORPEDOES EXPENDED, MISSION FAILED'
+            torpedoFailText2.text = 'PRESS R TO RESTART'
+            torpedoFailText3.text = 'PRESS ESC TO RETURN TO MENU'
+            gameOver = true;
+
+            if (p1Score > highScore) {
+
+                highScore = p1Score;
+
+            }
 
         }
 
@@ -376,8 +382,8 @@ class Play extends Phaser.Scene {
 
         });
 
-        this.p1Score += ship.points;
-        this.scoreLeft.text = this.p1Score;
+        p1Score += ship.points;
+        this.scoreLeft.text = p1Score;
 
         this.sound.play('sfx_explosion');
 
